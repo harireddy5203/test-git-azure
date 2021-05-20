@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+    </parent>
+
+    <groupId>com.git.azure</groupId>
+    <artifactId>git-azure</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>git-azure</name>
+    <description>REPLACE_PROJECT_DESCRIPTION</description>
+
+    <properties>
+        <main.basedir>${basedir}</main.basedir>
+        <spring.boot.version>2.2.5.RELEASE</spring.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <dockerfile.plugin.version>1.4.13</dockerfile.plugin.version>
+        <springdoc.openapi.version>1.2.32</springdoc.openapi.version>
+        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+        <commons-io.version>1.3.2</commons-io.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <google-java-format.version>1.7</google-java-format.version>
+        <guava.version>29.0-android</guava.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <hibernate-core.version>5.4.27.Final</hibernate-core.version>
+        <springfox.version>2.9.2</springfox.version>
+        <!-- Configurable pieces -->
+        <docker.image.prefix>img</docker.image.prefix>
+        <from.image>openjdk:8-jre</from.image>
+        <!--suppress UnresolvedMavenProperty -->
+        <ecr.repository>${env.ECR_REPOSITORY}</ecr.repository>
+    <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+    </properties>
+    <!-- Dependency management -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Cloud Dependency -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Doc OpenAPI -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-core</artifactId>
+                <version>${springdoc.openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc.openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.googlejavaformat</groupId>
+                <artifactId>google-java-format</artifactId>
+                <version>${google-java-format.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!-- Mapstruct dependencies. -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+            <!-- JWT dependency -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Build configuration -->
+    <build>
+        <!-- Defines plugins that are used in the modules. -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+<modules>  <module>commons/git-azure-commons</module>
+    <module>commons/git-azure-data-commons</module>
+    <module>commons/git-azure-data-jpa-commons</module>
+    <module>commons/git-azure-data-mongo-commons</module>
+    <module>commons/git-azure-web-commons</module>
+    <module>commons/git-azure-test-commons</module>
+    <module>security/git-azure-security-commons</module>
+    <module>security/git-azure-security-auth-mfa</module>
+    <module>security/git-azure-security-auth-db</module>
+    <module>infra-services/git-azure-discovery-service</module>
+    <module>infra-services/git-azure-gateway-service</module>
+    <module>authentication/git-azure-authentication-service</module>
+    <module>clients/git-azure-client</module>
+  <module>services/gitazure-default-service</module>
+    </modules>
+</project>
