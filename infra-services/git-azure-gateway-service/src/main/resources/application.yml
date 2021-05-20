@@ -1,0 +1,81 @@
+# Routes configuration
+# --------------------
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: myhr-web-app-service
+          uri: lb://myhr-web-app-service
+          predicates:
+            - Path=/depts/**
+          filters:
+            - RewritePath=/depts/(?<path>.*), /depts/$\{path}
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - PATCH
+              - PUT
+              - POST
+              - DELETE
+              - PATH
+              - OPTIONS
+            allowedHeaders:
+              - origin
+              - accept
+              - x-requested-with
+              - content-type
+              - access-control-request-method
+              - access-control-request-headers
+              - authorization
+            exposedHeaders:
+              - content-type
+              - content-disposition
+            allowCredentials: true
+            maxAge: 3600
+        addToSimpleUrlHandlerMapping: true
+
+# Increase the Hystrix timeout to 60s (globally)
+# ----------------------------------------------
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 180000
+  threadpool:
+    default:
+      coreSize: 50
+
+# Requests to the zuul proxy are routed through the Ribbon load balancer and will throw a timeout exception
+# if the response is not obtained within a couple of seconds. Increase the timeout values (as the login to AD
+# can potentially take several seconds.
+# -----------------------------------------------------------------------------------------------------------
+ribbon:
+  ConnectTimeout: 60000
+  ReadTimeout: 120000
+
+# Information that gets displayed in the spring admin UI
+# ------------------------------------------------------
+info:
+  app:
+    name: ${spring.application.name}
+    description: Gateway Service for iSymphony Platform
+# Server Port
+# -----------
+server:
+  port: 8762
+
