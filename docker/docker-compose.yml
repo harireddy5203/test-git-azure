@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+    # Service - git-azure-db-server
+    git-azure-db-server:
+        container_name: git-azure-db-server
+        image: postgres:12.4
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=gitazure
+
+# Service - gitazure-default-service
+    gitazure-default-service:
+        container_name: gitazure-default-service
+        image: img/gitazure-default-service:1.0.0
+        restart: always
+        ports:
+            - "8082:8082"
+        depends_on:
+            - git-azure-db-server
+
